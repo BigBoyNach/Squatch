@@ -1,0 +1,129 @@
+const moment = require('moment');
+const Enmap = require('enmap');
+const Discord = require('discord.js');
+const configuration = require('../../config/embed/embedMsg.json')
+const embedMSG = configuration.messages
+const {
+    SlashCommandBuilder
+} = require('@discordjs/builders');
+const {
+    customAlphabet
+} = require('nanoid')
+require('moment-duration-format');
+const {
+    staffRole
+} = require('../../config/constants/roles.json');
+const {
+    channelLog
+} = require('../../config/constants/channel.json');
+const {
+    serverID,
+    appealLink
+} = require('../../config/main.json');
+
+module.exports = {
+    data: new SlashCommandBuilder()
+        .setName('ban')
+        .setDescription('Bans the mentioned user')
+        .addUserOption(option => option.setName('user').setDescription('Please enter the user you would like to ban').setRequired(true))
+        .addStringOption(option => option.setName('reason').setDescription('Please enter the reason why you would like to ban them').setRequired(true)),
+    async execute(interaction, client) {
+        const Prohibited = new Discord.MessageEmbed()
+            .setColor(embedMSG.errorColor)
+            .setTitle(embedMSG.prohibitedEmbedTitle)
+            .setDescription(embedMSG.prohibitedEmbedDesc);
+        const includeuser = new Discord.MessageEmbed()
+            .setColor(embedMSG.errorColor)
+            .setTitle(embedMSG.errorEmbedTitle)
+            .setDescription(embedMSG.enterValidUser);
+        const stateareason = new Discord.MessageEmbed()
+            .setColor(embedMSG.errorColor)
+            .setTitle(embedMSG.errorEmbedTitle)
+            .setDescription(embedMSG.errorNoReason);
+        const cantbanyourself = new Discord.MessageEmbed()
+            .setColor(embedMSG.errorColor)
+            .setTitle(embedMSG.errorEmbedTitle)
+            .setDescription(embedMSG.cantDoAnythingToYourself);
+        const samerankorhigher = new Discord.MessageEmbed()
+            .setColor(embedMSG.errorColor)
+            .setTitle(embedMSG.errorEmbedTitle)
+            .setDescription(embedMSG.errorRolehierarchy);
+        const warnsDB = new Enmap({
+            name: 'warns'
+        });
+        const cannedMsgs = new Enmap({
+            name: 'cannedMsgs'
+        });
+        const server = interaction.guild
+        if (!interaction.member.roles.cache.has(staffRole)) return interaction.editReply({ embeds: [Prohibited] })
+        const toWarn = interaction.options.getUser('user')
+        const moderator = interaction.member;
+        if (!toWarn)
+            interaction.editReply({
+                embeds: [includeuser]
+            });
+        warnsDB.ensure(toWarn.id, {
+            warns: {}
+        });
+        let reason = interaction.options.getString('reason');
+        if (!reason) {
+            interaction.editReply({
+                embeds: [stateareason]
+            });
+        }
+        if (cannedMsgs.has(reason)) reason = cannedMsgs.get(reason);
+        if (moderator.id == toWarn.id)
+            interaction.editReply({
+                embeds: [cantbanyourself]
+            });
+        if (
+            server.members.cache.get(moderator.id).roles.highest.rawPosition <=
+            (server.members.cache.get(toWarn.id) ?
+                server.members.cache.get(toWarn.id).roles.highest.rawPosition :
+                0)
+        ) {
+            interaction.editReply(({
+                embeds: [samerankorhigher]
+            }));
+        }
+        const warnLogs = server.channels.cache.get(channelLog);
+        const nanoid = customAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789', 10)
+        const caseID = nanoid();
+        const usergotbanned = new Discord.MessageEmbed()
+            .setTitle(`Case - ${caseID}`)
+            .setColor('GREEN')
+            .addField('Member', `${toWarn.tag} (${toWarn.id})`)
+            .addField('Moderator', `${moderator.user.tag} (${moderator.id})`)
+            .addField('Reason', `\`(banned) - ${reason}\``)
+        await warnLogs.send({
+            embeds: [usergotbanned]
+        });
+        const emUser = new Discord.MessageEmbed()
+            .setTitle('Banned')
+            .setColor('GREEN')
+            .setThumbnail('https://i.imgur.com/BSzzbNJ.jpg')
+            .setDescription(`You were banned from **${server}** for ${reason}!`)
+            .addField('Case ID', `\`${caseID}\``)
+            .addField('Ban Appeal', `[Click here](${appealLink})`);
+        await toWarn.send({
+            embeds: [emUser]
+        }).catch((err) => err);
+        const emChan = new Discord.MessageEmbed()
+            .setDescription(`You have succesfully banned **${toWarn.tag}**`)
+            .setColor('GREEN');
+        await interaction.editReply({
+            embeds: [emChan]
+        });
+        warnsDB.set(
+            toWarn.id, {
+                moderator: moderator.id,
+                reason: `(banned) - ${reason}`,
+                date: moment(Date.now()).format('LL'),
+            },
+            `warns.${caseID}`,
+        );
+        return client.guilds.cache
+            .get(serverID)
+            .members.ban(toWarn, { reason, days: 7 }); //the days section is how many days worth of message should be deleted when the user is banned, must be 0-7 otherwise theres going to be an error
+    }
+};

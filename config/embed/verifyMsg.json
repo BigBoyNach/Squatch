@@ -1,0 +1,12 @@
+
+{
+    "messages": {
+        "verifyTitle": "🤖 Verification 🤖",
+
+
+        "systemFailed": "❌ Sorry, the verification system failed. Please contact a Administrator or the [developer](https://github.com/TheOnlyNez) of the bot ASAP.",
+        "incorrectCaptcha": "You've entered the captcha incorrectly.",
+        "WhyDidYouRecieveIt": "You recieved this verification message because we would to verify that you aren't an automated bot and to protect the server from malicious attacks\nMake sure you type the captcha code in this conversation and not in the server",
+        "possibleIssues": "If youre unable to read the image, then you can go to the verification channel selected by the server administrators, then you can run the command /verify to get the same message to appear but with a different captcha image"
+    }
+}

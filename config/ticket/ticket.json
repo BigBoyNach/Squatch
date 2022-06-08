@@ -1,0 +1,69 @@
+{
+  "tickets": {
+    "supportCategoryID": "",
+    "reportUserCategoryID": "",
+    "reportBugCategoryID": "",
+    "reportOtherCategoryID": "",
+
+
+    "supportRoleID": "",
+
+
+    "successfulColor": "GREEN",
+    "errorColor": "RED",
+
+
+    "reportUser": "🧑  Report Ticket: User  🧑",
+    "reportBug": "🐛  Report Ticket: Bug  🐛",
+    "reportOther": "❓  Report Ticket: Other  ❓",
+    "newTicketTitle": "🎟  New Ticket  🎟",
+    "ticketLockedTitle": "🔒  Ticket Locked  🔒",
+    "ticketUnlockedTitle": "🔓  Ticket Unlocked  🔓",
+
+
+    "newTicketEmbed": "Welcome, thank you for opening a ticket. Our Support Team will be with you shortly. Meanwhile, Please select the appropriate option from the select menu below and please provide us with any information that may help us.",
+    "reportUserEmbed": "Welcome, thank you for opening a ticket to report a user!. Our Support Team will be with you shortly. Meanwhile, Please provide us with any information that may help us. e.g. screenshots and an explanation of what happened",
+    "reportBugEmbed": "Welcome, thank you for opening a ticket to report a bug. Our Support Team will be with you shortly. Meanwhile, please provide us with any information that may help us. e.g. How you encountered the bug and what it does!",
+    "otherTicketEmbed": "Welcome, thank you for opening a ticket. Our Support Team will be with you shortly. Meanwhile, Please provide as much information as possible about what your ticket is about",
+    "ticketUnlockedEmbed": "The ticket has been successfully unlocked - everyone now has access to talk in the ticket",
+    "ticketLockedEmbed": "This ticket has been locked until further notice.",
+
+
+    "onlySupportCanAdd": "true",
+    "onlySupportCanClose": "true",
+    "pingSupportOnOpen": "true",
+    "useNumberedTickets": "true",
+    "ticketCategories": {
+      "enabled": "true",
+      "categories": [
+        {
+          "displayName": "Report User",
+          "categoryDescription": "Report a User for Breaking the Rules",
+          "categoryEmoji": "🧑",
+          "value": "first_option"
+        },
+        {
+          "displayName": "Report a bug",
+          "categoryDescription": "Report a bug",
+          "categoryEmoji": "🐛",
+          "value": "second_option"
+        },
+        {
+          "displayName": "Other",
+          "categoryDescription": "If your Support Category isn't Listed",
+          "categoryEmoji": "❓",
+          "value": "third_option"
+        }
+      ]
+    },
+    "waitingCategorySwap": {
+      "enabled": "false",
+      "categoryId": ""
+    },
+    "pingOnMessage": {
+      "pingSupport": "false",
+      "pingUser": "false",
+      "pingOnce": "true"
+    }
+  }
+}

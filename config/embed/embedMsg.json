@@ -1,0 +1,49 @@
+{
+    "messages": {
+        "successfulColor": "GREEN",
+        "errorColor": "RED",
+
+
+        "prohibitedEmbedTitle": "❌  Woops, you're not allowed to do that  ❌",
+        "commandWentWellTitle": "✅  Success  ✅",
+        "errorEmbedTitle": "❌  Error  ❌",
+        "leaderboardTitle": "🏆  Leaderboard  🏆",
+
+
+        "commandWentWellDesc": "Command executed successfully",
+        "prohibitedEmbedDesc": "You're not allowed to do that",
+        "wrongCommandFormatDesc": "Please make sure you're using the correct command format",
+        "noOneInLeaderBoard": "Unfortunately, No one is in the leaderboard - You can be the first!",
+        "userGotNoXp": "You currently have no XP - Please keep chatting to get more xp",
+
+
+        "cantFindValidCase": "Cant find a valid case with this ID, please make sure you filled it in correctly (case senstive)",
+        "pleaseEnterID": "Please make sure to provide a valid user ID",
+        "requestedInfo": "Please check your direct messages for the requested information",
+
+
+        "enterValidUser": "Please mention a valid user",
+        "errorNoReason": "Please provide a valid reason",
+
+
+        "cantDoAnythingToYourself": "➰ Loop Protection - Try running this command on someone else ➰",
+        "errorRolehierarchy": "Hm, it seems like that user has elevated privileges",
+
+
+        "messageDeletion": "How many messages should be deleted?",
+        "messageLimit": "You can only delete 100 messages at once!",
+
+        "newNicknameEmbed": "Please provide the new nickname",
+
+
+        "timeoutDuration": "How long should the user be timed-out",
+
+
+        "warningEnableDMs": "It seems like you're not allowing me to send a DM. Try again after you enabled your dm's",
+
+        "alreadyHasRole": "Seems like the user already has that role - Can't give users duplicate roles",
+        "roleDoesntExist": "Seems like the role doesnt exist - Please try another role",
+        "roleHasBeenRemoved": "Role has been removed successfully",
+        "missingRolePermission": "Seems like you currently cant give edit or give the role to other users - Please make sure you have the correct permissions before making changes or give the role to other users"
+    }
+}
