@@ -121,9 +121,9 @@ node .
 
 * A valid bot token along with its client id
 
-* invite the bot to a server and need the server id
+* invite the bot to a server and you will need the server id (please note that the bot will only work in one server)
 
-* multiple channels and roles to give up both the [channel json file](https://github.com/TheGreatElohim/Squatch/blob/main/config/constants/channel.json) and [role json file](https://github.com/TheGreatElohim/Squatch/blob/main/config/constants/roles.json) 
+* you will require to put the [multiple channels ids] (https://github.com/TheGreatElohim/Squatch/blob/main/config/constants/channel.json) at the channel file and you will require to do the same with the roles at the [role json file](https://github.com/TheGreatElohim/Squatch/blob/main/config/constants/roles.json) 
 
 * You also need a valid [mongodb database link](https://www.mongodb.com/) for the giveaway command
 
