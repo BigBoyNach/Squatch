@@ -5,7 +5,7 @@
     "joinToCreateChannel": "",
     "verificationChannel": "",
     "captchaLogChannel": "",
-    "reactionRoleChannel": "",
+    "selectRolesChannel": "",
     "welcomeChannel": "",
     "pollChannel": "",
     "levelUpChannel":""
