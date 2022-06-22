@@ -13,8 +13,7 @@ module.exports = {
         activities: [
           {
             name: `${newActivity}`,
-            type: "STREAMING",
-            url: `https://www.youtube.com/watch?v=dQw4w9WgXcQ`,
+            type: "WATCHING",
           },
         ],
         status: "online",
