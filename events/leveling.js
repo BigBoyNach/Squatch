@@ -7,6 +7,7 @@ module.exports = {
   name: "messageCreate",
   once: false,
   async execute(client, message) {
+    /*
     const server = client.guilds.cache.get(serverID);
     const target = message.author;
     const user = await Levels.fetch(target.id, server.id, true);
@@ -32,6 +33,6 @@ module.exports = {
       levelingChannel.send({
         embeds: [rankedup],
       });
-    }
+    }*/
   },
 };
