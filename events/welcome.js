@@ -14,6 +14,7 @@ module.exports = {
             `Welcome ${UserOnJoin} to the server!`,
             `How are you ${UserOnJoin} !`,
             `Hows your day been so far, ${UserOnJoin} ?`
+            ` ${UserOnJoin} has just joined the server !`
         ]
         let chosenMessage = messages[Math.floor(Math.random() * messages.length)]
         welcome.send(chosenMessage)

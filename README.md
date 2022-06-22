@@ -2,28 +2,26 @@
 #### This discord bot is designed to attempt to replace all of those bots in your Discord server.
 
 
-# Pre-Warning
-* The bot is very buggy sometimes, if you would like to see what the known issues are, please go to the [issue](https://github.com/BigBoyNachash/Squatch/issues) or scroll down
-
-
 # People who helped in the creation or testing of the bot
 * Nachash#9180 (988068903152394301)
+* Zitta#3759 (488912326179946497)
+
 
 
 [Support server] - currently none
 
 # Main features of the bot
 * A ticket system
-* Button based reaction role system (althought you have to set up the roles)
-* Moderation commands
+* A Select menu that allows users to select what roles they would like (you will have to set it up yourself and most likely be the hardest thing to setup)
+* Moderation commands that allows you to ban users, kick users, time out users and a lot more
 * Role based system instead of permission based
 * Utility commands
 * Has a slash command handler
-* server and user info
-* Management commands
-* Join to create voice channels
+* Informational commands that lets you see information about a user or a server
+* Management/Administrator commands
+* Join to create Event that allow users to join a selected voice channel and to be moved to there own custom made vc
 * Leveling
-* Antiswear feature
+* Antiswear feature (might be removed soon due to discord adding it)
 
 
 
