@@ -8,5 +8,7 @@
     "selectRolesChannel": "",
     "welcomeChannel": "",
     "pollChannel": "",
-    "levelUpChannel":""
+    "levelUpChannel":"",
+    "staffApplicationChannel": "",
+    "staffApplicationResponsesChannel": ""
 }

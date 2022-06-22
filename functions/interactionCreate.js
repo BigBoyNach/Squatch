@@ -2,8 +2,11 @@ const Discord = require("discord.js");
 const transcripts = require(`discord-html-transcripts`);
 const configuration = require("../config/ticket/ticket.json");
 const tickets = configuration.tickets;
-const { adminRole } = require("../config/constants/roles.json");
-const { channelLog } = require("../config/constants/channel.json");
+const { adminRole, staffRole } = require("../config/constants/roles.json");
+const {
+  channelLog,
+  staffApplicationResponsesChannel,
+} = require("../config/constants/channel.json");
 const { serverID } = require("../config/main.json");
 const {
   role1,
@@ -145,28 +148,69 @@ module.exports = {
     }
 
     // For the ticket system - allows the user to select what they want to report
-    if (!interaction.isSelectMenu()) return;
-    if (interaction.values[0] === "first_option") {
-      interaction.channel.setParent(tickets.reportUserCategoryID);
-      await interaction.update({
-        embeds: [reportauserembed],
-        components: [row],
-      });
+    if (interaction.isSelectMenu()) {
+      if (interaction.values[0] === "first_option") {
+        interaction.channel.setParent(tickets.reportUserCategoryID);
+        await interaction.update({
+          embeds: [reportauserembed],
+          components: [row],
+        });
+      }
+
+      if (interaction.values[0] === "second_option") {
+        interaction.channel.setParent(tickets.reportBugCategoryID);
+        await interaction.update({
+          embeds: [reportabugembed],
+          components: [row],
+        });
+      }
+
+      if (interaction.values[0] === "third_option") {
+        interaction.channel.setParent(tickets.reportOtherCategoryID);
+        await interaction.update({
+          embeds: [otherticketembedtoreport],
+          components: [row],
+        });
+      }
     }
 
-    if (interaction.values[0] === "second_option") {
-      interaction.channel.setParent(tickets.reportBugCategoryID);
-      await interaction.update({
-        embeds: [reportabugembed],
-        components: [row],
-      });
-    }
-
-    if (interaction.values[0] === "third_option") {
-      interaction.channel.setParent(tickets.reportOtherCategoryID);
-      await interaction.update({
-        embeds: [otherticketembedtoreport],
-        components: [row],
+    //For the staff application
+    if (
+      interaction.isButton() &&
+      interaction.customId == "staffApplicationButton"
+    ) {
+      const staffappreschan = await interaction.guild.channels.fetch(
+        staffApplicationResponsesChannel
+      );
+      const modal = new Discord.Modal()
+        .setTitle("Staff Application")
+        .setCustomId("staffApplicationModal")
+        .addComponents(
+          new Discord.MessageActionRow().addComponents(
+            new Discord.TextInputComponent()
+              .setCustomId("textInput")
+              .setLabel("Please describe precisely your motivation")
+              .setMaxLength(4000)
+              .setMinLength(500)
+              .setRequired(true)
+              .setStyle("PARAGRAPH")
+          )
+        );
+      await interaction.showModal(modal);
+      const answer = await interaction.awaitModalSubmit({ time: 1800000 });
+      const embed = new Discord.MessageEmbed()
+        .setTitle(`Submitter : ${interaction.user.tag}`)
+        .setDescription(
+          `**${modal.components[0].components[0].label} : ** \n \n ${answer.components[0].components[0].value}`
+        )
+        .setColor("GREEN");
+      await staffappreschan.send(
+        `<@&${staffRole}> New Staff Application Response !`
+      );
+      await staffappreschan.send({ embeds: [embed] });
+      await answer.reply({
+        content: "Successfully submited !",
+        ephemeral: true,
       });
     }
   },
