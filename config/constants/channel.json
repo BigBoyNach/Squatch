@@ -1,14 +1,14 @@
 {
-    "channelLog": "",
-    "announcement": "",
-    "suggestChannel": "",
-    "joinToCreateChannel": "",
-    "verificationChannel": "",
-    "captchaLogChannel": "",
-    "selectRolesChannel": "",
-    "welcomeChannel": "",
-    "pollChannel": "",
-    "levelUpChannel":"",
-    "staffApplicationChannel": "",
-    "staffApplicationResponsesChannel": ""
+    "channelLog": "988185726187368488",
+    "announcement": "988185774023389265",
+    "suggestChannel": "988185807275839548",
+    "joinToCreateChannel": "988186430197092402",
+    "verificationChannel": "988185878927142922",
+    "captchaLogChannel": "988185923604856922",
+    "selectRolesChannel": "988185959587803167",
+    "welcomeChannel": "988185997772738610",
+    "pollChannel": "988186033239752764",
+    "levelUpChannel":"988186056958550026",
+    "staffApplicationChannel": "988927068777611336",
+    "staffApplicationResponsesChannel": "988927125581103114"
 }
