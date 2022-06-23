@@ -5,7 +5,7 @@ module.exports = {
   once: true,
   execute: (client) => {
     eventLogger(client);
-    let STATUSES = [`America`, `Banana`, `House`, `9`, `abc`];
+    let STATUSES = [`The server`, `DMS`, `How to be a good bot`];
     setInterval(() => {
       const randomIndex = Math.floor(Math.random() * (STATUSES.length - 1) + 1);
       const newActivity = STATUSES[randomIndex];

@@ -7,7 +7,6 @@ const {
   staffRole,
   modRole,
 } = require("../config/constants/roles.json");
-x;
 const {
   channelLog,
   applicationResponsesChannel,
