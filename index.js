@@ -72,7 +72,7 @@ const defaultGiveawayMessages = {
   dropWin: "{winner} Won The Drop!!",
 };
 
-Nuggies.Messages(client, { giveawayOptions: defaultGiveawayMessages });
+/*Nuggies.Messages(client, { giveawayOptions: defaultGiveawayMessages });
 Nuggies.connect(""); // connection for giveaway
 Nuggies.handleInteractions(client);
 Nuggies.giveaways.startAgain(client);
@@ -87,6 +87,6 @@ db.run(
 );
 db.run(
   `CREATE TABLE IF NOT EXISTS guildData(guildId INTEGER, ticketCount INTEGER, memberCount INEGER)`
-);
+);*/
 
 client.login(process.env.TOKEN);

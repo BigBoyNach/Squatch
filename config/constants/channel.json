@@ -9,6 +9,6 @@
     "welcomeChannel": "988185997772738610",
     "pollChannel": "988186033239752764",
     "levelUpChannel":"988186056958550026",
-    "staffApplicationChannel": "988927068777611336",
-    "staffApplicationResponsesChannel": "988927125581103114"
+    "applicationChannel": "988927068777611336",
+    "applicationResponsesChannel": "988927125581103114"
 }

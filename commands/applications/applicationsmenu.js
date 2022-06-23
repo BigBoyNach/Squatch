@@ -3,18 +3,14 @@ const configuration = require("../../config/embed/embedMsg.json");
 const embedMSG = configuration.messages;
 const { staffRole } = require("../../config/constants/roles.json");
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const {
-  staffApplicationChannel,
-} = require("../../config/constants/channel.json");
+const { applicationChannel } = require("../../config/constants/channel.json");
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("staffaplication")
-    .setDescription("Send the Staff Aplcation Menu"),
+    .setName("applicationsmenu")
+    .setDescription("Send the Applications Menu"),
   async execute(interaction, client) {
-    const staffappchan = interaction.client.channels.cache.get(
-      staffApplicationChannel
-    );
+    const appchan = interaction.client.channels.cache.get(applicationChannel);
     const success = new Discord.MessageEmbed()
       .setColor(embedMSG.successfulColor)
       .setTitle(embedMSG.commandWentWellTitle)
@@ -27,18 +23,35 @@ module.exports = {
     if (!interaction.member.roles.cache.has(staffRole))
       return interaction.editReply({ embeds: [Prohibited] });
     const embed = new Discord.MessageEmbed()
-      .setTitle(`Staff Application`)
+      .setTitle(`Applications`)
       .setDescription(
-        `If you want to apply to become a staff member, click on the button bellow`
+        `If you want to apply to become a Staff, a Moderator or an Helper, select the right Application`
       )
       .setColor("AQUA");
     const button = new Discord.MessageActionRow().setComponents(
-      new Discord.MessageButton()
-        .setCustomId("staffApplicationButton")
-        .setLabel("Apply now")
-        .setStyle("SUCCESS")
+      new Discord.MessageSelectMenu()
+        .setCustomId("selectApplication")
+        .addOptions(
+          {
+            label: "Staff Application",
+            emoji: "🚨",
+            value: "staffApplication",
+          },
+          {
+            label: "Moderator Application",
+            emoji: "🔨",
+            value: "modApplication",
+          },
+          {
+            label: "Helper Application",
+            emoji: "❓",
+            value: "helperApplication",
+          }
+        )
+        .setMinValues(1)
+        .setMaxValues(1)
     );
     interaction.editReply({ embeds: [success] });
-    staffappchan.send({ embeds: [embed], components: [button] });
+    appchan.send({ embeds: [embed], components: [button] });
   },
 };

@@ -1,11 +1,16 @@
 const Discord = require("discord.js");
 const transcripts = require(`discord-html-transcripts`);
-const configuration = require("../config/ticket/ticket.json");
-const tickets = configuration.tickets;
-const { adminRole, staffRole } = require("../config/constants/roles.json");
+const ticketConfiguration = require("../config/ticket/ticket.json");
+const tickets = ticketConfiguration.tickets;
+const {
+  adminRole,
+  staffRole,
+  modRole,
+} = require("../config/constants/roles.json");
+x;
 const {
   channelLog,
-  staffApplicationResponsesChannel,
+  applicationResponsesChannel,
 } = require("../config/constants/channel.json");
 const { serverID } = require("../config/main.json");
 const {
@@ -176,42 +181,111 @@ module.exports = {
 
     //For the staff application
     if (
-      interaction.isButton() &&
-      interaction.customId == "staffApplicationButton"
+      interaction.isSelectMenu() &&
+      interaction.customId == "selectApplication"
     ) {
-      const staffappreschan = await interaction.guild.channels.fetch(
-        staffApplicationResponsesChannel
+      const appreschan = await interaction.guild.channels.fetch(
+        applicationResponsesChannel
       );
-      const modal = new Discord.Modal()
-        .setTitle("Staff Application")
-        .setCustomId("staffApplicationModal")
-        .addComponents(
-          new Discord.MessageActionRow().addComponents(
-            new Discord.TextInputComponent()
-              .setCustomId("textInput")
-              .setLabel("Please describe precisely your motivation")
-              .setMaxLength(4000)
-              .setMinLength(500)
-              .setRequired(true)
-              .setStyle("PARAGRAPH")
+      if (interaction.values[0] == "staffApplication") {
+        const modal = new Discord.Modal()
+          .setTitle("🚨Staff Application")
+          .setCustomId("staffApplicationModal")
+          .addComponents(
+            new Discord.MessageActionRow().addComponents(
+              new Discord.TextInputComponent()
+                .setCustomId("motivationTextInput")
+                .setLabel("Please describe your motivation")
+                .setMinLength(100)
+                .setMaxLength(4000)
+                .setPlaceholder("My motivation")
+                .setRequired(true)
+                .setStyle("PARAGRAPH")
+            )
+          );
+        await interaction.showModal(modal);
+        const ans = await interaction.awaitModalSubmit({ time: 1800000 });
+        const embed = new Discord.MessageEmbed()
+          .setTitle(`Submitter: ${interaction.user.tag}`)
+          .setDescription(
+            `Please describe your motivation:\n\n${ans.components[0].components[0].value}`
           )
-        );
-      await interaction.showModal(modal);
-      const answer = await interaction.awaitModalSubmit({ time: 1800000 });
-      const embed = new Discord.MessageEmbed()
-        .setTitle(`Submitter : ${interaction.user.tag}`)
-        .setDescription(
-          `**${modal.components[0].components[0].label} : ** \n \n ${answer.components[0].components[0].value}`
-        )
-        .setColor("GREEN");
-      await staffappreschan.send(
-        `<@&${staffRole}> New Staff Application Response !`
-      );
-      await staffappreschan.send({ embeds: [embed] });
-      await answer.reply({
-        content: "Successfully submited !",
-        ephemeral: true,
-      });
+          .setColor(interaction.guild.roles.cache.get(staffRole).color);
+        await appreschan.send({
+          content: `<@&${staffRole}> new Staff Application received !`,
+          embeds: [embed],
+        });
+        await ans.reply({
+          content: "✅  Successfully submitted Staff Application  ✅",
+          ephemeral: true,
+        });
+      } else if (interaction.values[0] == "modApplication") {
+        const modal = new Discord.Modal()
+          .setTitle("🔨Moderator Application")
+          .setCustomId("modApplicationModal")
+          .addComponents(
+            new Discord.MessageActionRow().addComponents(
+              new Discord.TextInputComponent()
+                .setCustomId("motivationTextInput")
+                .setLabel("Please describe your motivation")
+                .setMinLength(100)
+                .setMaxLength(4000)
+                .setPlaceholder("My motivation")
+                .setRequired(true)
+                .setStyle("PARAGRAPH")
+            )
+          );
+        await interaction.showModal(modal);
+        const ans = await interaction.awaitModalSubmit({ time: 1800000 });
+        const embed = new Discord.MessageEmbed()
+          .setTitle(`Submitter: ${interaction.user.tag}`)
+          .setDescription(
+            `Please describe your motivation:\n\n${ans.components[0].components[0].value}`
+          )
+          .setColor(interaction.guild.roles.cache.get(modRole).color);
+        await appreschan.send({
+          content: `<@&${staffRole}> new Moderator Application received !`,
+          embeds: [embed],
+        });
+        await ans.reply({
+          content: "✅  Successfully submitted Moderator Application  ✅",
+          ephemeral: true,
+        });
+      } else if (interaction.values[0] == "helperApplication") {
+        const modal = new Discord.Modal()
+          .setTitle("❓Helper Application")
+          .setCustomId("helperApplicationModal")
+          .addComponents(
+            new Discord.MessageActionRow().addComponents(
+              new Discord.TextInputComponent()
+                .setCustomId("motivationTextInput")
+                .setLabel("Please describe your motivation")
+                .setMinLength(100)
+                .setMaxLength(4000)
+                .setPlaceholder("My motivation")
+                .setRequired(true)
+                .setStyle("PARAGRAPH")
+            )
+          );
+        await interaction.showModal(modal);
+        const ans = await interaction.awaitModalSubmit({ time: 1800000 });
+        const embed = new Discord.MessageEmbed()
+          .setTitle(`Submitter: ${interaction.user.tag}`)
+          .setDescription(
+            `Please describe your motivation:\n\n${ans.components[0].components[0].value}`
+          )
+          .setColor(
+            interaction.guild.roles.cache.get(tickets.supportRoleID).color
+          );
+        await appreschan.send({
+          content: `<@&${staffRole}> new Helper Application received !`,
+          embeds: [embed],
+        });
+        await ans.reply({
+          content: "✅  Successfully submitted Helper Application  ✅",
+          ephemeral: true,
+        });
+      }
     }
   },
 };
