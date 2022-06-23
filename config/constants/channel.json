@@ -9,6 +9,6 @@
     "welcomeChannel": "",
     "pollChannel": "",
     "levelUpChannel":"",
-    "staffApplicationChannel": "",
-    "staffApplicationResponsesChannel": ""
+    "applicationChannel": "",
+    "applicationResponsesChannel": ""
 }
