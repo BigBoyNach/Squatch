@@ -24,7 +24,7 @@ module.exports = {
       const captchaImage = new Discord.MessageAttachment(captcha.JPEGStream, 'captcha.jpeg');
       await captchachannel.send({ files: [captchaImage] });
       const Server = args.guild.name;
-      const e0 = new Discord.MessageEmbed().setTitle(verifyMsg.verifyTitle).setFooter({ text: `Made by Elohim#5350 - https://github.com/TheGreatElohim` });
+      const e0 = new Discord.MessageEmbed().setTitle(verifyMsg.verifyTitle).setFooter({ text: `Made by Nach#9180 - https://github.com/BigBoyNach` });
       const e1 = new Discord.MessageEmbed(e0).setDescription(`Welcome to **${Server}**\nTo gain access, please enter the captcha code from the image below - you must enter the captcha code correctly to get verified in the server`).addField('**Why did you recieve this?**', verifyMsg.WhyDidYouRecieveIt).addField('Possible Issues', verifyMsg.possibleIssues);
       const e2 = new Discord.MessageEmbed(e0).setDescription(verifyMsg.incorrectCaptcha);
       const e3 = new Discord.MessageEmbed(e0).setDescription(`You have verified yourself in **${Server}**! and you successfully recieved a role! You now have access to the server`);
