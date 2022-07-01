@@ -1,13 +1,10 @@
 {
   "tickets": {
-    "supportCategoryID": "988753875039297556",
-    "reportUserCategoryID": "988753924804718603",
-    "reportBugCategoryID": "988753963375550505",
-    "reportOtherCategoryID": "988753987413094420",
-
-
-    "supportRoleID": "988754185572978738",
-
+    "supportCategoryID": "",
+    "reportUserCategoryID": "",
+    "reportBugCategoryID": "",
+    "reportOtherCategoryID": "",
+    "supportRoleID": "",
 
     "successfulColor": "GREEN",
     "errorColor": "RED",
