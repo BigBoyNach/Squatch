@@ -55,7 +55,7 @@
     },
     "waitingCategorySwap": {
       "enabled": "false",
-      "categoryId": "988754432399400960"
+      "categoryId": ""
     },
     "pingOnMessage": {
       "pingSupport": "false",
