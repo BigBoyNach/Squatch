@@ -1,7 +1,9 @@
 const Discord = require("discord.js");
 const transcripts = require(`discord-html-transcripts`);
+const configuration = require("../config/embed/embedMsg.json");
 const ticketConfiguration = require("../config/ticket/ticket.json");
 const tickets = ticketConfiguration.tickets;
+const embedMSG = configuration.messages;
 const {
   adminRole,
   staffRole,
@@ -26,7 +28,7 @@ module.exports = {
 
     //Command Handler
     if (interaction.isCommand()) {
-      await interaction.deferReply({ ephermeral: true });
+      await interaction.deferReply();
       const command = client.commands.get(interaction.commandName);
       if (!command) return;
       try {
@@ -106,19 +108,27 @@ module.exports = {
         const role = await interaction.guild.roles.cache.get(
           interaction.values[i]
         );
+        const AlreadyHaveRole = new Discord.MessageEmbed()
+      .setColor("RED")
+      .setTitle(embedMSG.errorEmbedTitle)
+      .setDescription(`You already have the ${role.name} role`);
         if (interaction.member.roles.cache.has(role.id))
-          interaction.user.send(`You already have **${role.name}** role!`);
+          interaction.user.send({
+            embeds: [AlreadyHaveRole]});
         else {
           interaction.member.roles.add(role.id);
           rolesAddedLength++;
           rolesAdded = rolesAdded + `- ${role.name} \n`;
         }
       }
+      const SuccessfullyAddedRole = new Discord.MessageEmbed()
+      .setColor("GREEN")
+      .setTitle(embedMSG.commandWentWellTitle)
+      .setDescription(`Successfuly added \`${rolesAddedLength}\` roles : \n` + rolesAdded);
       if (rolesAdded)
-        await interaction.user.send(
-          `Successfuly added \`${rolesAddedLength}\` roles : \n` + rolesAdded
-        );
+        await interaction.user.send({embeds: [SuccessfullyAddedRole]});
     }
+
 
     //for the option in the ticket system - lets moderators and members to close the tickets
     if (interaction.isButton()) {
