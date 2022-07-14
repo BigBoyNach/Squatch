@@ -6,32 +6,32 @@ const configuration = require('../config/embed/verifyMsg.json')
 const verifyMsg = configuration.messages
 
 module.exports = {
-  name: 'guildMemberAdd',
+  name: 'guildargs.memberAdd',
   once: false,
   execute: (client, args) => {
     const userCaptchaData = {};
     const captchachannel = client.channels.cache.get(captchaLogChannel);
     async function verification() {
       const roleObj = args.guild.roles.cache.get(roleID);
-      if (args.user.bot) {
-        return args.roles.add(roleObj)
+      if (args.member.user.bot) {
+        return args.member.roles.add(roleObj)
       }
       const captcha = new Captcha(); // send it to a discord channel so it doesnt get deleted
       if (!captchachannel) {
         console.log("Check if you entered everything correct, Did you enter in the correct channel/role id's");
-        return args.send(verifyMsg.systemFailed);
+        return args.member.send(verifyMsg.systemFailed);
       }
       const captchaImage = new Discord.MessageAttachment(captcha.JPEGStream, 'captcha.jpeg');
       await captchachannel.send({ files: [captchaImage] });
-      const Server = args.guild.name;
+      const Server = args.member.guild.name;
       const e0 = new Discord.MessageEmbed().setTitle(verifyMsg.verifyTitle).setFooter({ text: `Made by Nach#9180 - https://github.com/BigBoyNach` });
       const e1 = new Discord.MessageEmbed(e0).setDescription(`Welcome to **${Server}**\nTo gain access, please enter the captcha code from the image below - you must enter the captcha code correctly to get verified in the server`).addField('**Why did you recieve this?**', verifyMsg.WhyDidYouRecieveIt).addField('Possible Issues', verifyMsg.possibleIssues);
       const e2 = new Discord.MessageEmbed(e0).setDescription(verifyMsg.incorrectCaptcha);
       const e3 = new Discord.MessageEmbed(e0).setDescription(`You have verified yourself in **${Server}**! and you successfully recieved a role! You now have access to the server`);
       try {
-        userCaptchaData[args.id] = {};
-        userCaptchaData[args.id].captchaValue = captcha.value;
-        const channel = await args.user.createDM();
+        userCaptchaData[args.member.id] = {};
+        userCaptchaData[args.member.id].captchaValue = captcha.value;
+        const channel = await args.member.user.createDM();
         try {
           const embedImage = new Discord.MessageAttachment(captcha.JPEGStream, 'captcha.jpeg');
           channel.send({ embeds: [e1.setImage("attachment://captcha.jpeg")], files: [embedImage] }
@@ -43,7 +43,7 @@ module.exports = {
               .addField("Look at the image to learn how to enable your dm's", "Not doing so will disable your access to the server")
               .setImage('https://i.imgur.com/sEkQOCf.png');
             ;
-            await vchannel.send({ content: `<@!${args.user.id}>`, embeds: [enableDMEmb] })
+            await vchannel.send({ content: `<@!${args.member.user.id}>`, embeds: [enableDMEmb] })
           });
         } catch (err) {
           console.log(err);
@@ -51,11 +51,11 @@ module.exports = {
         const filter = (m) => {
           if (m.author.bot) return;
           // FOR ME, PLEASE DONT REMOVE THIS COMMENT
-          if (m.author.id === args.id && String(m.content).toUpperCase() === String(userCaptchaData[args.id].captchaValue).toUpperCase()) {
-            console.log(`correct captcha: ${userCaptchaData[args.id].captchaValue} // got : ${String(m.content).toUpperCase()}`);
+          if (String(m.content).toUpperCase() === String(userCaptchaData[args.member.id].captchaValue).toUpperCase()) {
+            console.log(`correct captcha: ${userCaptchaData[args.member.id].captchaValue} // got : ${String(m.content).toUpperCase()}`);
             return true;
           }
-          console.log(`incorrect captcha: ${userCaptchaData[args.id].captchaValue} // got : ${String(m.content).toUpperCase()}`);
+          console.log(`incorrect captcha: ${userCaptchaData[args.member.id].captchaValue} // got : ${String(m.content).toUpperCase()}`);
           m.channel.send({ embeds: [e2] }); // captcha is incorrect and messages the user it is incorrect
           return false;
         };
@@ -66,30 +66,26 @@ module.exports = {
             time: 600000,
             errors: ['time'],
           }).then(async (response) => {
+            // get the role, and cache it if it isn't already cached
             // User entered a captcha code then bot checks if its correct or not and if it is, the bot gives the selected role set by the administrator
             try {
-              if (response && captcha.value == userCaptchaData[args.id].captchaValue) {
+              if (response && captcha.value == userCaptchaData[args.member.id].captchaValue) {
                 console.log(captcha.value);
-                const vchannel = client.channels.cache.get(verificationChannel);
-                var roleObj = args.guild.roles.cache.get(roleID);
-                if (roleObj) {
-                  await channel.send({ embeds: [e3] });
-                  await args.roles.add(roleObj);
-                }
+                await channel.send({ embeds: [e3] });
+                await args.member.roles.add(roleID);
               }
-              // if the new member joins and enters captcha code correctly, the log will go to the specific channel set by the server owner
-              const joinedServer = args.guild.members.cache.get(args.user.id).joinedAt.toDateString();
-              const userCreationDate = args.user.createdAt.toDateString();
-              var roleObj = args.guild.roles.cache.get(roleID);
-              const CaptchaLog = new Discord.MessageEmbed()
-                .setTitle('New Member')
-                .addField('**User:**', `${args.user.tag}`)
-                .addField('**Joined Server at:**', `${joinedServer}`)
-                .addField('**Account Creation:**', `${userCreationDate}`)
-                .addField('**Captcha Code:**', `${userCaptchaData[args.id].captchaValue}`)
-                .addField('**Role Given:**', `${roleObj}`)
-                .setColor("PURPLE");
-              if (channelLog) args.guild.channels.cache.get(channelLog).send({ embeds: [CaptchaLog] });
+              // if the new args.member joins and enters captcha code correctly, the log will go to the specific channel set by the server owner
+              args.guild.members.fetch(args.member).then(m => {
+                const CaptchaLog = new Discord.MessageEmbed()
+                  .setTitle('New args.member')
+                  .addField('**User:**', `${args.member.user.tag}`)
+                  .addField('**Joined Server at:**', `${m.joinedAt.toDateString()}`)
+                  .addField('**Account Creation:**', `${m.user.createdAt.toDateString()}`)
+                  .addField('**Captcha Code:**', `${userCaptchaData[args.member.id].captchaValue}`)
+                  .addField('**Role Given:**', `${roleObj}`)
+                  .setColor("PURPLE");
+                if (channelLog) args.member.guild.channels.cache.get(channelLog).send({ embeds: [CaptchaLog] });
+              })
             } catch (err) {
               console.log(err);
             }
@@ -101,7 +97,7 @@ module.exports = {
             /*
                          *  Check for new Captcha
                          */
-            if (userCaptchaData[args.id].captchaValue === captcha.value) {
+            if (userCaptchaData[args.member.id].captchaValue !== captcha.value) {
               channel.send(`Operation timed out, please run /verify to try again.`);
             }
           });
