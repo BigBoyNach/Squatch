@@ -13,7 +13,7 @@ module.exports = {
     const captchachannel = client.channels.cache.get(captchaLogChannel);
     async function verification() {
       const roleObj = args.guild.roles.cache.get(roleID);
-      if (args.member.user.bot) {
+      if (args.user.bot) {
         return args.member.roles.add(roleObj)
       }
       const captcha = new Captcha(); // send it to a discord channel so it doesnt get deleted
@@ -31,7 +31,7 @@ module.exports = {
       try {
         userCaptchaData[args.member.id] = {};
         userCaptchaData[args.member.id].captchaValue = captcha.value;
-        const channel = await args.member.user.createDM();
+        const channel = await args.user.createDM();
         try {
           const embedImage = new Discord.MessageAttachment(captcha.JPEGStream, 'captcha.jpeg');
           channel.send({ embeds: [e1.setImage("attachment://captcha.jpeg")], files: [embedImage] }
@@ -43,7 +43,7 @@ module.exports = {
               .addField("Look at the image to learn how to enable your dm's", "Not doing so will disable your access to the server")
               .setImage('https://i.imgur.com/sEkQOCf.png');
             ;
-            await vchannel.send({ content: `<@!${args.member.user.id}>`, embeds: [enableDMEmb] })
+            await vchannel.send({ content: `<@!${args.user.id}>`, embeds: [enableDMEmb] })
           });
         } catch (err) {
           console.log(err);
@@ -77,7 +77,7 @@ module.exports = {
               args.guild.members.fetch(args.member).then(m => {
                 const CaptchaLog = new Discord.MessageEmbed()
                   .setTitle('New args.member')
-                  .addField('**User:**', `${args.member.user.tag}`)
+                  .addField('**User:**', `${args.user.tag}`)
                   .addField('**Joined Server at:**', `${m.joinedAt.toDateString()}`)
                   .addField('**Account Creation:**', `${m.user.createdAt.toDateString()}`)
                   .addField('**Captcha Code:**', `${userCaptchaData[args.member.id].captchaValue}`)
