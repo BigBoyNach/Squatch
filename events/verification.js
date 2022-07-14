@@ -70,7 +70,6 @@ module.exports = {
             // User entered a captcha code then bot checks if its correct or not and if it is, the bot gives the selected role set by the administrator
             try {
               if (response && captcha.value == userCaptchaData[args.member.id].captchaValue) {
-                console.log(captcha.value);
                 await channel.send({ embeds: [e3] });
                 await args.member.roles.add(roleID);
               }
