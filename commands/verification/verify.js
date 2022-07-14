@@ -32,6 +32,6 @@ module.exports = {
     };
 
     interaction.editReply({embeds: [success] })
-    await verification.execute(client, interaction);
+    await verification.execute(client, interaction.member);
   }
 }
