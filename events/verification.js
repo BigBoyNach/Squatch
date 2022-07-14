@@ -6,7 +6,7 @@ const configuration = require('../config/embed/verifyMsg.json')
 const verifyMsg = configuration.messages
 
 module.exports = {
-  name: 'guildargs.memberAdd',
+  name: 'guildMemberAdd',
   once: false,
   execute: (client, args) => {
     const userCaptchaData = {};
